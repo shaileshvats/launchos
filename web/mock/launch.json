@@ -1,0 +1,247 @@
+{
+  "id": "lch_7f3a9c",
+  "name": "BrewLoop",
+  "idea": "A subscription service that delivers locally roasted coffee to remote workers in Bengaluru, with a Slack bot for team re-orders",
+  "founder_name": "Asha Rao",
+  "target_customer": "Remote-first startups in Bengaluru with 10–200 staff",
+  "constraints": "Launch in 6 weeks, budget ₹5 lakh, no custom hardware",
+  "status": "waiting_approval",
+  "created_at": "2026-11-07T09:12:04Z",
+  "updated_at": "2026-11-07T09:25:31Z",
+  "stages": [
+    {
+      "key": "research",
+      "title": "Market research",
+      "agent": "research-analyst",
+      "status": "done",
+      "started_at": "2026-11-07T09:12:10Z",
+      "finished_at": "2026-11-07T09:14:41Z",
+      "room_name": "lch-7f3a9c-research",
+      "error": null
+    },
+    {
+      "key": "product",
+      "title": "Product spec & backlog",
+      "agent": "product-manager",
+      "status": "done",
+      "started_at": "2026-11-07T09:14:48Z",
+      "finished_at": "2026-11-07T09:17:02Z",
+      "room_name": "lch-7f3a9c-product",
+      "error": null
+    },
+    {
+      "key": "builder",
+      "title": "Landing page build",
+      "agent": "builder",
+      "status": "done",
+      "started_at": "2026-11-07T09:17:09Z",
+      "finished_at": "2026-11-07T09:21:35Z",
+      "room_name": "lch-7f3a9c-builder",
+      "error": null
+    },
+    {
+      "key": "marketing",
+      "title": "Go-to-market plan",
+      "agent": "marketing-lead",
+      "status": "done",
+      "started_at": "2026-11-07T09:21:42Z",
+      "finished_at": "2026-11-07T09:23:58Z",
+      "room_name": "lch-7f3a9c-marketing",
+      "error": null
+    },
+    {
+      "key": "readiness",
+      "title": "Launch readiness",
+      "agent": "readiness-reviewer",
+      "status": "waiting_approval",
+      "started_at": "2026-11-07T09:24:05Z",
+      "finished_at": "2026-11-07T09:25:30Z",
+      "room_name": "lch-7f3a9c-readiness",
+      "error": null
+    }
+  ],
+  "deliverables": {
+    "research": {
+      "markdown": "# Market research: BrewLoop\n\n## Summary\nBengaluru has one of India's densest clusters of remote-first and hybrid startups. Office coffee is a **recurring, habitual spend** that is currently served by pantry vendors (low quality) or ad-hoc Swiggy/Zepto orders (no team-level billing). A subscription that bundles *locally roasted* beans with a **Slack re-order bot** targets a gap between consumer coffee subscriptions and enterprise pantry contracts.\n\n## Market sizing (estimates)\n| Layer | Assumption | Estimate |\n|---|---|---|\n| TAM | Bengaluru knowledge workers who work remotely or hybrid | ~1.1M people |\n| SAM | Startups with 10-200 staff, remote-first, Slack users | ~2,400 companies |\n| SOM (year 1) | 1.5% of SAM, avg. 14 coffee drinkers per account | ~36 accounts / ~500 drinkers |\n\n*All figures are model estimates from public reports and should be validated with 10 customer calls before launch.*\n\n## Competitive landscape\n| Competitor | Model | Gap we can exploit |\n|---|---|---|\n| Blue Tokai | Retail + D2C subscription | Individual-focused, no team billing |\n| Sleepy Owl | Cold brew, D2C subscription | No Slack workflow, ready-to-drink only |\n| Third Wave Coffee | Cafes + B2B beans | Sales-led, high minimums |\n| Local pantry vendors | Instant coffee, tea bags | Low quality, no traceability |\n\n## Customer insights\n- **Remote workers** want *better coffee than instant* but do not want to manage grind size, filters and re-orders.\n- **Team leads / office managers** need a single invoice and a way to stop \"who ran out of coffee?\" threads.\n- Slack is where re-order intent is voiced (\"we're out of beans again\"), so capturing it there removes friction.\n\n## Risks\n1. **Logistics:** same-day roast-to-door within Bengaluru needs a reliable last-mile partner.\n2. **Margin:** specialty beans carry ~55% gross margin before delivery; delivery can erase half of it.\n3. **Regulatory:** FSSAI registration is required before selling food products.\n\n## Recommendation\n**Proceed.** Validate with a 6-week pilot of 10 paying teams, a single roaster partner and one delivery slot per week.\n"
+    },
+    "product": {
+      "markdown": "# Product spec: BrewLoop MVP\n\n## Vision\nFresh, locally roasted coffee that shows up before the team runs out, and a Slack bot that makes re-ordering a one-line message.\n\n## Target users\n- **Team lead (buyer):** wants one invoice, predictable spend, zero admin.\n- **Remote worker (drinker):** wants to pick a roast they like and get beans at home or at a co-working desk.\n\n## MVP scope\n1. Team plan checkout with GST invoice.\n2. Roast profile quiz (light / medium / dark, brew method).\n3. Weekly or fortnightly delivery cadence per team.\n4. **Slack bot** with `/brewloop reorder`, `/brewloop pause`, `/brewloop status`.\n5. Admin page: members, next delivery, invoices.\n\n## Out of scope (v1)\n- Custom hardware (grinders, machines)\n- Mobile apps\n- Cities other than Bengaluru\n\n## Key flows\n```\n/brewloop reorder 2 kg medium\n  -> bot confirms quantity and delivery slot\n  -> order created, invoice line added\n  -> team channel gets \"Order #118 confirmed, arriving Thu 11am\"\n```\n\n## Success metrics\n- 10 paying teams in 6 weeks\n- Re-order via Slack >= 60% of repeat orders\n- Delivery on-time rate >= 95%\n\n## Open questions\n- [ ] Which roaster partner signs a 6-week exclusivity?\n- [x] Pricing in INR inclusive of GST\n- [ ] Can the Slack app be listed on the directory in time?\n",
+      "backlog": [
+        {
+          "id": "LOS-1",
+          "title": "Team plan checkout with UPI and card",
+          "priority": "P0",
+          "estimate": "3d",
+          "acceptance": "Given a team admin, when they pick a plan and pay via UPI or card, then a subscription is created and a GST invoice emailed."
+        },
+        {
+          "id": "LOS-2",
+          "title": "Roast profile quiz",
+          "priority": "P1",
+          "estimate": "1d",
+          "acceptance": "Quiz stores roast level and brew method per team and recommends one of three bean bundles."
+        },
+        {
+          "id": "LOS-3",
+          "title": "Roaster partner order feed",
+          "priority": "P0",
+          "estimate": "2d",
+          "acceptance": "Confirmed orders are pushed to the roaster as a daily CSV/email by 6pm for next-day roasting."
+        },
+        {
+          "id": "LOS-4",
+          "title": "Delivery scheduling and slots",
+          "priority": "P0",
+          "estimate": "3d",
+          "acceptance": "Teams choose weekly or fortnightly cadence and a 2-hour slot; changes allowed until 48h before dispatch."
+        },
+        {
+          "id": "LOS-5",
+          "title": "Slack app: install and workspace linking",
+          "priority": "P0",
+          "estimate": "2d",
+          "acceptance": "Admin installs the app via OAuth, links the workspace to a BrewLoop team, and receives a confirmation DM."
+        },
+        {
+          "id": "LOS-6",
+          "title": "Slack /brewloop reorder command",
+          "priority": "P0",
+          "estimate": "2d",
+          "acceptance": "Command parses quantity and roast, shows a confirm button, and creates an order on confirm."
+        },
+        {
+          "id": "LOS-7",
+          "title": "Pause and resume subscription",
+          "priority": "P1",
+          "estimate": "1d",
+          "acceptance": "Admin can pause up to 4 weeks via web or Slack; billing and deliveries stop accordingly."
+        },
+        {
+          "id": "LOS-8",
+          "title": "Admin dashboard",
+          "priority": "P1",
+          "estimate": "3d",
+          "acceptance": "Shows members, next delivery, past invoices and a reorder button."
+        },
+        {
+          "id": "LOS-9",
+          "title": "Delivery status notifications",
+          "priority": "P2",
+          "estimate": "1d",
+          "acceptance": "Team channel receives dispatched and delivered messages with a tracking link."
+        },
+        {
+          "id": "LOS-10",
+          "title": "Privacy policy and consent flow (DPDP)",
+          "priority": "P1",
+          "estimate": "1d",
+          "acceptance": "Sign-up records consent timestamp; policy page linked in footer and Slack app description."
+        }
+      ]
+    },
+    "builder": {
+      "url": "mock/landing.html",
+      "summary": "Single-file landing page (6 KB, no scripts, no external requests) with hero, how-it-works, three pricing tiers, a Slack bot preview and an FAQ. Copy follows the **Better than the pantry / Zero admin / Local** pillars from the marketing plan."
+    },
+    "marketing": {
+      "markdown": "# Go-to-market plan\n\n## Positioning\n**BrewLoop is the coffee supply for remote-first teams in Bengaluru.** Locally roasted, delivered on a schedule, re-ordered from Slack.\n\n## Messaging pillars\n- **Better than the pantry:** single-origin beans roasted within 72 hours of delivery.\n- **Zero admin:** one invoice, one cadence, one Slack command.\n- **Local:** supports Bengaluru roasters and cuts transit time.\n\n## Pricing (inclusive of GST)\n| Plan | Beans per delivery | Price per month |\n|---|---|---|\n| Starter | 1 kg | ₹1,499 |\n| Team | 3 kg | ₹3,999 |\n| Studio | 8 kg | ₹9,499 |\n\n## Channels\n1. **Founder communities:** Slack/WhatsApp groups of Bengaluru startup founders and ops leads.\n2. **LinkedIn:** short posts on \"the real cost of bad office coffee\" aimed at people-ops.\n3. **Co-working partnerships:** free tasting kits at 5 co-working spaces.\n4. **Referral:** one free bag for each referred team that subscribes.\n\n## 6-week plan\n| Week | Focus | Target |\n|---|---|---|\n| 1 | Landing page live, waitlist | 100 sign-ups |\n| 2 | 20 customer calls, tasting kits | 10 pilot teams committed |\n| 3 | First deliveries | On-time >= 95% |\n| 4 | Slack bot beta | 5 teams on bot |\n| 5 | Referral launch | 3 referrals |\n| 6 | Public launch | 10 paying teams |\n\n## Budget (₹5 lakh cap)\n- Product and tooling: ₹1.5 lakh\n- Tasting kits and samples: ₹1.2 lakh\n- Paid and community marketing: ₹1.3 lakh\n- Contingency: ₹1.0 lakh\n"
+    },
+    "readiness": {
+      "markdown": "# Launch readiness review\n\n**Score: 78 / 100.** The product is ready for a controlled public launch, with one blocker.\n\n## Blocking\n- **FSSAI registration** has not been filed. Selling packaged coffee without it is non-compliant. Estimated 7-10 working days for a basic registration.\n\n## Should fix before launch\n- Margin after delivery is thin (about 31%). Negotiate roaster pricing or move to fortnightly delivery as the default.\n- Only one roaster partner: add a fallback supplier.\n- Add an explicit DPDP consent checkbox on sign-up.\n\n## Ready\n- Value proposition is clear and tested in 4 landing-page variants.\n- Slack bot scope is minimal (`commands`, `chat:write`).\n- Payments pass sandbox tests for UPI and cards.\n\n## Recommendation\nApprove the public launch **conditional on** FSSAI filing being submitted within 48 hours.\n",
+      "score": 78,
+      "checks": [
+        {
+          "name": "Value proposition is clear",
+          "status": "pass",
+          "detail": "Headline and subhead state who it is for and the benefit in under 15 words."
+        },
+        {
+          "name": "Landing page renders with a call to action",
+          "status": "pass",
+          "detail": "Hero CTA, pricing and FAQ present; page weighs 6 KB with no external requests."
+        },
+        {
+          "name": "Payments tested in sandbox",
+          "status": "pass",
+          "detail": "UPI intent, UPI collect and card flows complete; refunds not yet tested."
+        },
+        {
+          "name": "Slack bot permissions are minimal",
+          "status": "pass",
+          "detail": "Scopes limited to commands and chat:write; no message history access."
+        },
+        {
+          "name": "Unit economics",
+          "status": "warn",
+          "detail": "Gross margin after delivery is ~31%; target is 40%. CAC payback estimated at 4.1 months."
+        },
+        {
+          "name": "Supplier and delivery resilience",
+          "status": "warn",
+          "detail": "Single roaster and single courier partner. Add a fallback before 10 accounts."
+        },
+        {
+          "name": "Privacy and consent (DPDP)",
+          "status": "warn",
+          "detail": "Policy drafted; consent checkbox and data-deletion route not implemented."
+        },
+        {
+          "name": "FSSAI food business registration",
+          "status": "fail",
+          "detail": "No registration number on file. Required before the first paid shipment."
+        }
+      ]
+    }
+  },
+  "approvals": [
+    {
+      "id": "apr_1",
+      "title": "Approve public launch",
+      "description": "Readiness score is 78/100 with one failing check (FSSAI registration). Approving publishes the landing page, opens pre-orders and lets the Marketing agent start the community outreach plan. Rejecting stops the launch and keeps all deliverables for review.",
+      "status": "pending",
+      "decided_by": null,
+      "note": null,
+      "decided_at": null
+    }
+  ],
+  "switch": {
+    "rooms": [
+      {
+        "id": "!hq9Xa",
+        "name": "lch-7f3a9c-hq",
+        "purpose": "Launch HQ: orchestrator updates, hand-offs and approvals",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-hq"
+      },
+      {
+        "id": "!rs2Lb",
+        "name": "lch-7f3a9c-research",
+        "purpose": "Research analyst workspace",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-research"
+      },
+      {
+        "id": "!pd7Qc",
+        "name": "lch-7f3a9c-product",
+        "purpose": "Product manager workspace",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-product"
+      },
+      {
+        "id": "!bd4Rd",
+        "name": "lch-7f3a9c-builder",
+        "purpose": "Builder workspace",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-builder"
+      },
+      {
+        "id": "!mk8Se",
+        "name": "lch-7f3a9c-marketing",
+        "purpose": "Marketing lead workspace",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-marketing"
+      },
+      {
+        "id": "!rd1Tf",
+        "name": "lch-7f3a9c-readiness",
+        "purpose": "Readiness reviewer workspace",
+        "url": "http://localhost:8065/launchos/channels/lch-7f3a9c-readiness"
+      }
+    ]
+  }
+}

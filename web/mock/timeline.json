@@ -1,0 +1,149 @@
+[
+  {
+    "ts": "2026-11-07T09:12:05Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "message",
+    "body": "**New launch created** for *Asha Rao*.\n\n> A subscription service that delivers locally roasted coffee to remote workers in Bengaluru, with a Slack bot for team re-orders\n\nConstraints: launch in 6 weeks, budget ₹5 lakh, no custom hardware."
+  },
+  {
+    "ts": "2026-11-07T09:12:08Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "handoff",
+    "body": "Handing off to **research-analyst** in `lch-7f3a9c-research`."
+  },
+  {
+    "ts": "2026-11-07T09:12:12Z",
+    "room": "lch-7f3a9c-research",
+    "sender": "research-analyst",
+    "kind": "message",
+    "body": "Starting market research. Plan:\n\n1. Size the Bengaluru remote-first startup segment\n2. Map competitors (D2C and B2B coffee)\n3. Identify risks and a go/no-go recommendation"
+  },
+  {
+    "ts": "2026-11-07T09:13:30Z",
+    "room": "lch-7f3a9c-research",
+    "sender": "research-analyst",
+    "kind": "message",
+    "body": "Early finding: **no competitor combines locally roasted beans with a Slack-native re-order flow.** Blue Tokai and Sleepy Owl sell to individuals; Third Wave's B2B arm is sales-led with high minimums.\n\nTop risk so far is last-mile logistics for same-week roast-to-door delivery."
+  },
+  {
+    "ts": "2026-11-07T09:14:41Z",
+    "room": "lch-7f3a9c-research",
+    "sender": "research-analyst",
+    "kind": "deliverable",
+    "body": "**Market research** is ready.\n\n- TAM ~1.1M remote/hybrid workers\n- SAM ~2,400 startups (10-200 staff)\n- SOM ~36 accounts in year 1\n\nRecommendation: **proceed** with a 6-week pilot of 10 paying teams. Risks: logistics, margin, FSSAI registration.\n\nFull report is in the *Research* tab."
+  },
+  {
+    "ts": "2026-11-07T09:14:44Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "handoff",
+    "body": "Research complete. Handing off to **product-manager** in `lch-7f3a9c-product`."
+  },
+  {
+    "ts": "2026-11-07T09:14:50Z",
+    "room": "lch-7f3a9c-product",
+    "sender": "product-manager",
+    "kind": "message",
+    "body": "Read the research summary. I'll scope the MVP around three things: team checkout, scheduled deliveries, and the Slack re-order bot. Anything touching hardware stays out per the constraints."
+  },
+  {
+    "ts": "2026-11-07T09:16:10Z",
+    "room": "lch-7f3a9c-product",
+    "sender": "product-manager",
+    "kind": "message",
+    "body": "Draft backlog has 10 items. P0 items (checkout, roaster feed, delivery slots, Slack install, `/brewloop reorder`) add up to about **12 working days**, which fits inside the 6-week window with buffer for the FSSAI wait."
+  },
+  {
+    "ts": "2026-11-07T09:17:02Z",
+    "room": "lch-7f3a9c-product",
+    "sender": "product-manager",
+    "kind": "deliverable",
+    "body": "**Product spec & backlog** is ready: 10 items, 5 at P0.\n\n| Priority | Items |\n|---|---|\n| P0 | 5 |\n| P1 | 4 |\n| P2 | 1 |\n\nSee the *Product spec & backlog* tab for acceptance criteria."
+  },
+  {
+    "ts": "2026-11-07T09:17:05Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "handoff",
+    "body": "Spec complete. Handing off to **builder** in `lch-7f3a9c-builder`."
+  },
+  {
+    "ts": "2026-11-07T09:17:12Z",
+    "room": "lch-7f3a9c-builder",
+    "sender": "builder",
+    "kind": "message",
+    "body": "Building a single-file landing page: hero with value prop, how-it-works in 3 steps, pricing, Slack bot preview, FAQ. No scripts, no external requests, so it can be served in a sandboxed iframe."
+  },
+  {
+    "ts": "2026-11-07T09:19:48Z",
+    "room": "lch-7f3a9c-builder",
+    "sender": "builder",
+    "kind": "message",
+    "body": "Pricing section done. Using the three tiers from the research (Starter / Team / Studio). Next: the Slack bot preview card and FAQ.\n\n```\nGET /api/launches/lch_7f3a9c/landing -> 200 text/html (6 KB)\n```"
+  },
+  {
+    "ts": "2026-11-07T09:21:35Z",
+    "room": "lch-7f3a9c-builder",
+    "sender": "builder",
+    "kind": "deliverable",
+    "body": "**Landing page** is live at `/api/launches/lch_7f3a9c/landing`. Mobile layout checked at 375 px, no horizontal scroll, contrast AA."
+  },
+  {
+    "ts": "2026-11-07T09:21:39Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "handoff",
+    "body": "Landing page complete. Handing off to **marketing-lead** in `lch-7f3a9c-marketing`."
+  },
+  {
+    "ts": "2026-11-07T09:21:45Z",
+    "room": "lch-7f3a9c-marketing",
+    "sender": "marketing-lead",
+    "kind": "message",
+    "body": "Positioning: *the coffee supply for remote-first teams.* Pillars: better than the pantry, zero admin, local. Working out channels within the ₹5 lakh cap."
+  },
+  {
+    "ts": "2026-11-07T09:23:58Z",
+    "room": "lch-7f3a9c-marketing",
+    "sender": "marketing-lead",
+    "kind": "deliverable",
+    "body": "**Go-to-market plan** is ready.\n\n- 4 channels: founder communities, LinkedIn, co-working tastings, referrals\n- 6-week calendar targeting 10 paying teams\n- Budget split totals ₹4 lakh with ₹1 lakh contingency"
+  },
+  {
+    "ts": "2026-11-07T09:24:01Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "handoff",
+    "body": "GTM complete. Handing off to **readiness-reviewer** in `lch-7f3a9c-readiness`."
+  },
+  {
+    "ts": "2026-11-07T09:24:08Z",
+    "room": "lch-7f3a9c-readiness",
+    "sender": "readiness-reviewer",
+    "kind": "message",
+    "body": "Running 8 checks across product, legal, payments, and operations. I will flag anything that blocks the first paid shipment."
+  },
+  {
+    "ts": "2026-11-07T09:25:10Z",
+    "room": "lch-7f3a9c-readiness",
+    "sender": "readiness-reviewer",
+    "kind": "message",
+    "body": "Found one **blocker**: no FSSAI registration on file. Also two softer risks: margin after delivery (~31%) and a single roaster partner."
+  },
+  {
+    "ts": "2026-11-07T09:25:30Z",
+    "room": "lch-7f3a9c-readiness",
+    "sender": "readiness-reviewer",
+    "kind": "deliverable",
+    "body": "**Readiness score: 78/100** (4 pass, 3 warn, 1 fail).\n\nRecommendation: approve the launch **conditional on** FSSAI filing within 48 hours. Details in the *Readiness* tab."
+  },
+  {
+    "ts": "2026-11-07T09:25:31Z",
+    "room": "lch-7f3a9c-hq",
+    "sender": "launchos",
+    "kind": "approval",
+    "body": "**Approval requested:** *Approve public launch*.\n\nA human must approve or reject before anything is published. Open the Approvals panel, add a note and your name, then decide."
+  }
+]

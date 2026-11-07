@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BrewLoop: locally roasted coffee for remote teams</title>
+<style>
+  :root { --brown:#3b2418; --cream:#fbf6ef; --accent:#c8702a; --ink:#2a1c14; --muted:#7a675a; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; color:var(--ink); background:var(--cream); line-height:1.55; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 20px; }
+  nav { display:flex; justify-content:space-between; align-items:center; padding:18px 0; }
+  .logo { font-weight:800; font-size:20px; color:var(--brown); letter-spacing:-.02em; }
+  .logo span { color:var(--accent); }
+  .btn { display:inline-block; background:var(--accent); color:#fff; padding:12px 22px; border-radius:999px; font-weight:700; text-decoration:none; }
+  .btn.ghost { background:transparent; color:var(--brown); border:2px solid var(--brown); }
+  .hero { padding: 36px 0 56px; display:grid; gap:28px; grid-template-columns: 1.2fr .8fr; align-items:center; }
+  h1 { font-size: clamp(30px, 6vw, 52px); line-height:1.08; letter-spacing:-.03em; margin:0 0 16px; color:var(--brown); }
+  .lead { font-size:18px; color:var(--muted); margin:0 0 24px; }
+  .cup { aspect-ratio: 1; border-radius: 28px; background: radial-gradient(circle at 30% 25%, #e7a263, #8b4a1f 55%, #3b2418); display:grid; place-items:center; color:#fff; font-size:72px; box-shadow: 0 24px 50px rgba(59,36,24,.25); }
+  section { padding: 44px 0; }
+  h2 { font-size: 28px; letter-spacing:-.02em; margin:0 0 22px; color:var(--brown); }
+  .grid3 { display:grid; gap:16px; grid-template-columns: repeat(3, 1fr); }
+  .card { background:#fff; border-radius:16px; padding:22px; box-shadow:0 1px 3px rgba(59,36,24,.08); }
+  .card h3 { margin:0 0 6px; font-size:18px; }
+  .step { width:32px; height:32px; border-radius:50%; background:var(--brown); color:#fff; display:grid; place-items:center; font-weight:700; margin-bottom:10px; }
+  .price { font-size:32px; font-weight:800; color:var(--brown); }
+  .price small { font-size:14px; font-weight:500; color:var(--muted); }
+  .card.featured { outline:3px solid var(--accent); }
+  .tag { display:inline-block; background:#fbe3cc; color:#8a4510; font-size:12px; font-weight:700; padding:3px 10px; border-radius:99px; margin-bottom:8px; }
+  ul { padding-left:18px; margin:10px 0 0; color:var(--muted); }
+  .slack { background:#1f1630; color:#eee; border-radius:16px; padding:22px; font-family: ui-monospace,Menlo,Consolas,monospace; font-size:14px; }
+  .slack .me { color:#9cd0ff; } .slack .bot { color:#a6e3a1; }
+  details { background:#fff; border-radius:12px; padding:14px 18px; margin-bottom:10px; }
+  summary { font-weight:700; cursor:pointer; }
+  footer { padding:36px 0 48px; color:var(--muted); font-size:14px; border-top:1px solid #e8dccd; }
+  @media (max-width: 720px) { .hero, .grid3 { grid-template-columns: 1fr; } .cup { max-width: 220px; font-size:56px; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <div class="logo">Brew<span>Loop</span></div>
+    <a class="btn ghost" href="#pricing">See plans</a>
+  </nav>
+
+  <header class="hero">
+    <div>
+      <h1>Better coffee for your remote team. Re-ordered from Slack.</h1>
+      <p class="lead">Locally roasted in Bengaluru, delivered on your schedule. One invoice, zero admin, and no more "who finished the beans?" threads.</p>
+      <a class="btn" href="#pricing">Start a team plan</a>
+    </div>
+    <div class="cup" aria-hidden="true">&#9749;</div>
+  </header>
+
+  <section>
+    <h2>How it works</h2>
+    <div class="grid3">
+      <div class="card"><div class="step">1</div><h3>Pick your roast</h3><p>Answer a 3-question quiz. We match your team to light, medium or dark beans.</p></div>
+      <div class="card"><div class="step">2</div><h3>We roast and deliver</h3><p>Beans are roasted within 72 hours of delivery and arrive in your chosen 2-hour slot.</p></div>
+      <div class="card"><div class="step">3</div><h3>Re-order in Slack</h3><p>Running low? Type one command. We confirm in your channel and handle the rest.</p></div>
+    </div>
+  </section>
+
+  <section id="pricing">
+    <h2>Simple team pricing</h2>
+    <div class="grid3">
+      <div class="card"><h3>Starter</h3><div class="price">&#8377;1,499 <small>/ month</small></div><ul><li>1 kg beans per delivery</li><li>Best for 5-10 people</li><li>GST invoice</li></ul></div>
+      <div class="card featured"><span class="tag">Most popular</span><h3>Team</h3><div class="price">&#8377;3,999 <small>/ month</small></div><ul><li>3 kg beans per delivery</li><li>Best for 15-40 people</li><li>Slack re-order bot</li></ul></div>
+      <div class="card"><h3>Studio</h3><div class="price">&#8377;9,499 <small>/ month</small></div><ul><li>8 kg beans per delivery</li><li>Best for 50-200 people</li><li>Priority delivery slots</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Re-order without leaving Slack</h2>
+    <div class="slack">
+      <div><span class="me">asha:</span> /brewloop reorder 2 kg medium</div>
+      <div><span class="bot">brewloop:</span> Confirm 2 kg medium roast, Thu 11:00-13:00? [Confirm] [Change]</div>
+      <div><span class="bot">brewloop:</span> Order #118 confirmed. Arriving Thursday 11am.</div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Questions</h2>
+    <details><summary>Where do the beans come from?</summary><p>We partner with a Bengaluru roaster who sources single-origin beans from Karnataka and Kerala estates.</p></details>
+    <details><summary>Can we pause deliveries?</summary><p>Yes. Pause for up to four weeks from the dashboard or with /brewloop pause.</p></details>
+    <details><summary>Do you need any equipment from us?</summary><p>No. Beans come ready to grind or pre-ground for your brewing method. We do not sell machines.</p></details>
+  </section>
+
+  <footer>BrewLoop &middot; Made in Bengaluru &middot; hello@brewloop.example</footer>
+</div>
+</body>
+</html>

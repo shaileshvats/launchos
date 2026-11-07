@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "switch": {
+    "ok": true,
+    "api_url": "http://localhost:3000/api",
+    "gateway_url": "http://localhost:3000",
+    "mattermost_url": "http://localhost:8065"
+  },
+  "llm": {
+    "ok": true,
+    "mode": "live",
+    "model": "qwen/qwen3-4b-2507"
+  }
+}
