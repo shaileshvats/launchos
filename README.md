@@ -2,6 +2,8 @@
 
 **From a founder's idea to an approved launch, by a team of AI agents that work together in Switch rooms.**
 
+**Demo video (2:25):** https://youtu.be/EBvnL8ABzIs. It's real footage of a live launch: Switch rooms in Mattermost, the five deliverables, and approval by replying in the room. Waits are sped up where marked, and the narration is a synthetic voice.
+
 A founder describes a business idea. Five specialist agents (research, product, prototype, marketing, launch readiness)
 pick up the work in [Switch](https://github.com/sandbox-quantum/switch) rooms. They hand off to each other, read each
 other's deliverables from the shared HQ room, and finish with a launch-readiness assessment. The public launch only
