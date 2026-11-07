@@ -86,6 +86,33 @@ def test_full_journey_through_switch(client):
     assert any(f"[decision:{lid}:{apr}]" in b and "Test Founder" in b for b in bodies)
 
 
+def test_failed_stage_is_reported_through_switch_and_retry_recovers(tmp_path):
+    s = Settings.from_env()
+    s.llm_mode = "live"                      # require a model…
+    s.llm_base_url = "http://127.0.0.1:9/v1"  # …that cannot be reached
+    s.agent_prefix = "itest2-"
+    s.data_dir = tmp_path
+    eng = LaunchOS(s, Store(tmp_path / "t.db"))
+    eng.start()
+    try:
+        with TestClient(create_app(s, eng, start=False)) as c:
+            lid = c.post("/api/launches", json={"idea": "A tutoring marketplace for rural schools", "name": "TutorLink"}).json()["id"]
+            doc = wait_for(lambda: (lambda d: d if d["status"] == "failed" else None)(c.get(f"/api/launches/{lid}").json()), 60)
+            research = doc["stages"][0]
+            assert research["status"] == "failed" and "LLM not reachable" in research["error"]
+            hq = eng.store.get(lid)["rooms"]["hq"]["id"]
+            assert any("failed" in m["body"] and "Market research" in m["body"]
+                       for m in messages_from_context(eng.conductor.read_context(hq, limit=200)))
+            assert c.post(f"/api/launches/{lid}/retry", json={"stage": "product"}).status_code == 400  # not failed
+            s.llm_mode = "offline"            # the "fix": founder switches to offline mode
+            r = c.post(f"/api/launches/{lid}/retry", json={"stage": "research"})
+            assert r.status_code == 200
+            done = wait_for(lambda: (lambda d: d if d["status"] == "waiting_approval" else None)(c.get(f"/api/launches/{lid}").json()))
+            assert [st["status"] for st in done["stages"]] == ["done"] * 5
+    finally:
+        eng.stop()
+
+
 def test_validation_and_not_found(client):
     assert client.post("/api/launches", json={"idea": "short"}).status_code == 422
     assert client.get("/api/launches/lch_nope").status_code == 404

@@ -54,9 +54,14 @@ scripts/test.sh
 ```
 
 - **9 unit tests** cover parsers, the SSE reader, readiness scoring, landing-page escaping, the store and the offline pipeline.
-- **2 integration tests** run the full journey against the running Switch server in offline mode, under `itest-`
-  agent names. They check from the Switch rooms themselves that all five deliverables, the approval request and the
-  decision were posted there. They're skipped when no Switch server is configured.
+- **3 integration tests** run against the running Switch server in offline mode, under `itest-` agent names.
+  - The full journey: they check from the Switch rooms themselves that all five deliverables, the approval request and
+    the decision were posted there.
+  - The failure path: an unreachable model fails the research stage, the failure is reported in Switch, and a retry
+    completes the pipeline.
+  - Input validation and 404s.
+
+  They're skipped when no Switch server is configured.
 
 ## Project layout
 

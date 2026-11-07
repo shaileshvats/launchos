@@ -7,7 +7,7 @@ from pathlib import Path
 from typing import Any, Dict, Optional
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse, HTMLResponse
+from fastapi.responses import FileResponse, HTMLResponse, Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
@@ -138,6 +138,10 @@ def create_app(settings: Optional[Settings] = None, engine: Optional[LaunchOS] =
     web = ROOT / "web"
     if web.exists():
         app.mount("/static", StaticFiles(directory=str(web)), name="static")
+
+        @app.get("/favicon.ico")
+        def favicon():
+            return Response(status_code=204)  # the page declares an inline SVG icon
 
         @app.get("/")
         def index():

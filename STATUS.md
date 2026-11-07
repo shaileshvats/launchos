@@ -16,7 +16,7 @@ _Last updated: 2026-11-07, about 19:30 IST. Deadline 23:59 IST._
 | Readiness from 8 deterministic checks; legal is always "needs human review" | Unit tests; live score 94/100 |
 | Landing page rendered from escaped JSON, served with `script-src 'none'`, sandboxed iframe | Unit test (script injection is escaped); seen in the UI |
 | Web UI against the real backend | Built-in browser: no console errors; pipeline, deliverable tabs, iframe, Switch feed (29 messages) and approval panel all render |
-| Tests | `scripts/test.sh`: 11 passed (9 unit, 2 Switch integration) |
+| Tests | `scripts/test.sh`: 12 passed (9 unit, 3 Switch integration, including fail → report in Switch → retry → complete) |
 | Fake statistics | Prompt forbids unlabelled numbers; every live deliverable carries an "AI-generated draft… unverified estimates" note |
 
 ## Delegation
