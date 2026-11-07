@@ -11,6 +11,7 @@ _Last updated: 2026-11-07, about 19:30 IST. Deadline 23:59 IST._
 | Rooms per launch (HQ + 5 team rooms), bridged to Mattermost, human invited | Six `lch-…` channels exist in Mattermost team `switch` for each launch |
 | Handoff → specialist → deliverable → done → next handoff, all over Switch | Live run `lch_50e95f`: five stages completed with Qwen3-4B (27–44 s each); the timeline was read back from the rooms |
 | Specialists read their inputs from Switch (`read_context` on HQ), not from the DB | `_read_inputs` in `workflow.py`; the integration test asserts every `[deliverable]` is in the HQ room |
+| Three live runs with Qwen3-4B | `lch_50e95f` BrewDesk (approved in Mattermost), `lch_946169` started from the UI (approved in the UI by Asha Rao), `lch_7976c6` AI study planner (247 s for 5 stages; left waiting for approval as the demo state) |
 | Human approval in Mattermost | Posted `approve …` as `user` in the HQ channel; the launch became `launched` with "via Switch room (Mattermost)" and the decision was posted back to Switch |
 | Human approval in the UI, with validation (note + name required, no double decisions) | Integration test |
 | Readiness from 8 deterministic checks; legal is always "needs human review" | Unit tests; live score 94/100 |
