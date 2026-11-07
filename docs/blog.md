@@ -75,7 +75,7 @@ r = httpx.post(f"{base_url}/agents",
 agent_id, api_key = r.json()["id"], r.json()["api_key"]
 ```
 
-Everything else is an **operation**: `POST /agents/{id}/ops/{name}` with the agent's own key. `GET /agents/{id}/ops` lists them all; 0.31.0 has 53. The ones LaunchOS uses are `create_room`, `link_rooms`, `read_context` and `list_bridges`. Posting a message doesn't even need an operation: `POST /agents/{id}/message` with `{room_id, content}`.
+Everything else is an **operation**: `POST /agents/{id}/ops/{name}` with the agent's own key. `GET /agents/{id}/ops` lists them all; 0.31.0 has 53. The ones LaunchOS uses are `create_room`, `link_rooms`, `read_context` and `get_my_context`. Posting a message doesn't even need an operation: `POST /agents/{id}/message` with `{room_id, content}`.
 
 ## Step 3: the event stream and heartbeat
 
