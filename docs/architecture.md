@@ -55,7 +55,11 @@ and HTML), and the agents' API keys. Credentials never leave `data/`.
 
 - A specialist that fails posts `[failed:…]` with the reason; the stage and launch are marked failed, and the founder
   can retry that stage (`POST /api/launches/{id}/retry`), which posts a fresh handoff.
-- A watchdog fails any stage with no report within `STAGE_TIMEOUT` (default 420 s).
+- A watchdog re-sends a handoff that no specialist has acknowledged within 30 s (up to 3 handoffs in total); a
+  specialist ignores duplicates for work it has already claimed. It fails any stage with no report within
+  `STAGE_TIMEOUT` (default 420 s).
+- At startup LaunchOS waits until all six event streams are attached before it accepts launches. A freshly started
+  Switch 0.31.0 server can answer stream opens with HTTP 500 for its first minutes.
 - On restart, any stage that was running is marked failed with "Interrupted by a LaunchOS restart", so nothing hangs.
 - Event streams reconnect with the same connection id and `Last-Event-ID`; duplicate deliveries are ignored by message id.
 - Model JSON that doesn't parse gets one corrective retry, then the stage fails visibly.

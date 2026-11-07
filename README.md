@@ -28,15 +28,27 @@ What one run produces:
 
 See [docs/architecture.md](docs/architecture.md) for the full flow and failure handling.
 
-## Quick start (macOS/Linux, Docker, Python 3.9+)
+## Quick start
+
+**Requirements:**
+- Docker with Compose v2
+- Python 3.9 or later
+- `openssl` and `curl`
+- About 2.5 GB of disk for the Switch images
+- Optional: LM Studio, or any OpenAI-compatible model endpoint
+
+Tested on macOS (Apple Silicon); the scripts are plain bash and should work on Linux, but that is untested.
 
 ```bash
-scripts/setup.sh        # generates Switch secrets, creates .venv, writes .env
-scripts/switch-up.sh    # official Switch 0.31.0 stack: server :8000, Mattermost :8065, Gateway :3000
+git clone https://github.com/shaileshvats/launchos && cd launchos
+scripts/setup.sh        # generates fresh Switch secrets, creates .venv, writes .env (both .env files are git-ignored, mode 600)
+scripts/switch-up.sh    # official Switch 0.31.0 stack, bound to 127.0.0.1: API :8000, Mattermost :8065, Gateway :3000
 scripts/run.sh          # LaunchOS on http://127.0.0.1:8787
 ```
 
-The first `switch-up.sh` downloads about 1.5 GB of images.
+`scripts/switch-down.sh` stops the stack and keeps its data; `scripts/switch-down.sh -v` deletes the data too.
+To run a second stack beside the first, change the four `*_HOST_PORT` values in `switch/.env` and set
+`SWITCH_PROJECT=<name>`.
 
 **Model:** by default LaunchOS calls LM Studio on `http://127.0.0.1:1234/v1` with `qwen/qwen3-4b-2507`. Load that
 model, or point `LLM_BASE_URL` / `LLM_MODEL` / `LLM_API_KEY` in `.env` at any OpenAI-compatible endpoint.
@@ -63,6 +75,9 @@ scripts/test.sh
 
   They're skipped when no Switch server is configured.
 
+The integration tests register `itest-` and `itest2-` agents in your Switch server and leave their rooms behind.
+Before publishing, the suite was also run from a fresh clone against a brand-new, separate Switch stack: 12 passed.
+
 ## Project layout
 
 ```
@@ -77,6 +92,8 @@ backend/tests/      unit + Switch integration tests
 web/                UI (vanilla JS, no build step); ?mock=1 runs it on fixtures
 switch/             pinned official Switch compose file + env template (Apache 2.0 + Commons Clause)
 docs/               architecture, demo script
+STATUS.md           build log: what was verified, and how
+THIRD_PARTY_NOTICES.md
 ```
 
 ## API
@@ -91,16 +108,29 @@ docs/               architecture, demo script
 | POST | `/api/launches/{id}/retry` | `{stage}` retries a failed stage with a fresh handoff |
 | GET | `/api/launches/{id}/landing` | The generated landing page |
 
-## Honest limits
+## Known limitations
 
-- Deliverables come from a 4-billion-parameter local model with no internet access. Figures are estimates and every
-  live deliverable says so. Treat the output as a strong first draft.
-- The landing page is a static prototype; its waitlist form doesn't submit anywhere.
-- Switch's task protocol is marked "not ready for use" in 0.31.0, so handoffs use room messages with markers instead.
-- Tested on macOS (Apple Silicon) with Switch 0.31.0 and Qwen3-4B-Instruct-2507 in LM Studio. Nothing else was tested.
-- The Switch stack and LaunchOS bind to localhost and have no authentication on the LaunchOS API.
+- **Localhost only, no authentication.** The LaunchOS API and UI have no login, and anyone who can reach port 8787 can
+  start launches and approve them. Everything binds to 127.0.0.1 by default. Don't expose it on a network or the
+  internet without adding authentication and TLS in front.
+- **The waitlist form is a prototype.** The generated landing page is static: its email form doesn't submit or store
+  anything.
+- **Handoffs don't use Switch's task protocol.** Switch 0.31.0 documents its task operations (`delegate_task` and
+  related) as "present but not ready for use". So LaunchOS hands off work with ordinary room messages carrying markers
+  such as `[handoff:lch_ab12cd:research]`, and tracks completion through `[done]` and `[failed]` replies.
+- **A fresh Switch server can drop event streams.** In its first minutes it can return HTTP 500 when an agent opens
+  its stream (`No incarnation drawn`). LaunchOS waits for every agent's stream to attach before it accepts launches,
+  reconnects dropped streams, and re-sends any handoff not acknowledged within 30 seconds (up to 3 times).
+- **Model quality.** Deliverables come from a 4-billion-parameter local model with no internet access. Figures are
+  unverified estimates, and every live deliverable says so. Treat the output as a first draft.
+- **One process, one machine.** The six agents run inside the LaunchOS process. Launch state is in a local SQLite
+  file, and a restart marks any running stage as failed, so it can be retried.
+- **Tested setup.** Tested only on macOS (Apple Silicon) with Switch 0.31.0 and Qwen3-4B-Instruct-2507 in LM Studio.
 
 ## Licence
 
-LaunchOS code: MIT (see `LICENSE`). Switch is a separate project under Apache 2.0 with the Commons Clause
-(`switch/SWITCH-LICENSE`). LaunchOS only uses its published images and protocol.
+LaunchOS code is under the MIT licence (see `LICENSE`).
+
+Switch is a separate project under Apache 2.0 with the Commons Clause. `switch/docker-compose.yml` and
+`switch/.env.example` are copied from it, and the stack runs its published images. Those files and images remain
+under Switch's terms: see `switch/SWITCH-LICENSE`, `switch/SWITCH-NOTICE` and `THIRD_PARTY_NOTICES.md`.

@@ -1,6 +1,6 @@
 # Build status (hackathon log)
 
-_Last updated: 2026-11-07, about 19:30 IST. Deadline 23:59 IST._
+_Last updated: 2026-11-07, about 20:00 IST. Deadline 23:59 IST._
 
 ## Done and verified
 
@@ -18,6 +18,9 @@ _Last updated: 2026-11-07, about 19:30 IST. Deadline 23:59 IST._
 | Landing page rendered from escaped JSON, served with `script-src 'none'`, sandboxed iframe | Unit test (script injection is escaped); seen in the UI |
 | Web UI against the real backend | Built-in browser: no console errors; pipeline, deliverable tabs, iframe, Switch feed (29 messages) and approval panel all render |
 | Tests | `scripts/test.sh`: 12 passed (9 unit, 3 Switch integration, including fail → report in Switch → retry → complete) |
+| Fresh-clone reproducibility | Cloned the repo, ran `scripts/setup.sh` and started a separate Switch stack on alternate ports. `scripts/test.sh` passed 12/12. `scripts/run.sh` then took a launch through all 5 stages and a reject decision. The verification stack was then deleted |
+| Fresh-server robustness | The first fresh-stack run exposed Switch returning 500 on early stream opens, which lost a handoff. Fixed by waiting for all streams to attach and re-sending unacknowledged handoffs; re-verified on a rebuilt stack |
+| Secret scan | All 41 objects in git history checked: (1) exact match against every real secret on this machine (Switch and LaunchOS `.env` values, all agent API keys, the Mattermost session token): no secret found; (2) pattern scan (GitHub, OpenAI, AWS, Google and Slack tokens, private keys, JWTs, long hex strings, password/token assignments): no hits. Gitleaks couldn't be downloaded here (blocked by the environment's policy) |
 | Fake statistics | Prompt forbids unlabelled numbers; every live deliverable carries an "AI-generated draft… unverified estimates" note |
 
 ## Delegation
@@ -28,7 +31,6 @@ _Last updated: 2026-11-07, about 19:30 IST. Deadline 23:59 IST._
 
 ## Remaining / known limits
 
-- Public GitHub repo: not created. It needs the owner's go-ahead and GitHub credentials.
 - Two leftover probe agents (`launchos-probe`, `launchos-probe2`) and the `itest-*` test agents remain in the local
   Switch server. They're harmless.
 - The landing page's waitlist form is a prototype and doesn't submit.
