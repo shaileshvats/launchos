@@ -29,6 +29,8 @@ log = logging.getLogger("launchos.workflow")
 MARK = re.compile(r"\[(brief|handoff|deliverable|done|failed|approval|decision):([a-z0-9_]+)(?::([a-z0-9_]+))?\]")
 STAGE_KEYS = [s.key for s in SPECIALISTS]
 MAX_POST = 12000
+ACK_TIMEOUT = 30  # seconds before an unacknowledged handoff is re-sent
+MAX_HANDOFFS = 3
 
 
 def marker(kind: str, lid: str, sub: str = "") -> str:
@@ -79,6 +81,10 @@ class LaunchOS:
         for name, agent in self.agents.items():
             threading.Thread(target=agent.stream, args=(self._handler(name), self._stop),
                              name=f"sse-{name}", daemon=True).start()
+        deadline = time.time() + 60
+        for name, agent in self.agents.items():
+            if not agent.attached.wait(max(0.1, deadline - time.time())):
+                raise SwitchError(f"event stream for {name} did not attach within 60 s")
         threading.Thread(target=self._watchdog, name="watchdog", daemon=True).start()
         self._recover_interrupted()
         self.started = True
@@ -177,7 +183,7 @@ class LaunchOS:
         c.post(rooms["hq"]["id"], brief)
         self._handoff(lid, "research")
 
-    def _handoff(self, lid: str, key: str, retry: bool = False) -> None:
+    def _handoff(self, lid: str, key: str, retry: bool = False, resend: bool = False) -> None:
         doc = self.store.get(lid)
         sp = BY_KEY[key]
         hq, room = doc["rooms"]["hq"], doc["rooms"][key]
@@ -185,14 +191,19 @@ class LaunchOS:
 
         def mark(d):
             st = _stage(d, key)
-            st.update(status="running", started_at=now_iso(), finished_at=None, error=None)
+            if resend:
+                st["handoffs"] = st.get("handoffs", 1) + 1
+            else:
+                st.update(status="running", started_at=now_iso(), finished_at=None, error=None, ack_at=None, handoffs=1)
+            st["handoff_at"] = now_iso()
             d["status"] = "running"
         self.store.update(lid, mark)
         self.conductor.post(room["id"],
                             f"{marker('handoff', lid, key)} @{self.n(sp.agent)} {'Retry: ' if retry else ''}please produce: **{sp.title}**.\n"
                             f"Read the founder brief{' and ' + ', '.join(inputs) if inputs else ''} in #{hq['name']}, "
                             f"post your deliverable there, then report back here.")
-        self.conductor.post(hq["id"], f"Handed **{sp.title}** to @{self.n(sp.agent)} in #{room['name']}.")
+        self.conductor.post(hq["id"], f"{'No acknowledgement yet, so I re-sent' if resend else 'Handed'} **{sp.title}** "
+                                      f"to @{self.n(sp.agent)} in #{room['name']}.")
 
     # ── event handling ────────────────────────────────────────────────────────
     def _handler(self, me: str):
@@ -223,9 +234,16 @@ class LaunchOS:
     def _run_specialist(self, lid: str, key: str) -> None:
         sp = BY_KEY[key]
         agent = self.agents[self.n(sp.agent)]
-        doc = self.store.get(lid)
-        if not doc:
-            return
+        claimed = []
+
+        def claim(d):
+            st = _stage(d, key)
+            if st["status"] == "running" and not st.get("ack_at"):
+                st["ack_at"] = now_iso()
+                claimed.append(True)
+        doc = self.store.update(lid, claim) if self.store.get(lid) else None
+        if not doc or not claimed:
+            return  # a duplicate (re-sent) handoff for work already under way
         hq_id, room_id = doc["rooms"]["hq"]["id"], doc["rooms"][key]["id"]
         try:
             agent.post(room_id, f"On it: reading the brief and earlier deliverables from #{doc['rooms']['hq']['name']}.")
@@ -404,11 +422,15 @@ class LaunchOS:
                 self.store.update(doc["id"], upd)
 
     def _watchdog(self) -> None:
-        while not self._stop.wait(10):
+        while not self._stop.wait(5):
             for doc in self.store.list():
                 if doc["status"] != "running":
                     continue
                 for st in doc["stages"]:
+                    if (st["status"] == "running" and not st.get("ack_at") and st.get("handoff_at")
+                            and _age(st["handoff_at"]) > ACK_TIMEOUT and st.get("handoffs", 1) < MAX_HANDOFFS):
+                        self._pool.submit(self._safe, self._handoff, doc["id"], st["key"], False, True)
+                        continue
                     if st["status"] == "running" and st["started_at"] and _age(st["started_at"]) > self.s.stage_timeout:
                         self._on_stage_report(doc["id"], st["key"], "failed",
                                               f"No report from @{st['agent']} within {int(self.s.stage_timeout)} s")

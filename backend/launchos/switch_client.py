@@ -71,6 +71,7 @@ class SwitchAgent:
         self.api_key = api_key
         self.name = name
         self.connection_id = str(uuid.uuid4())
+        self.attached = threading.Event()  # set once the server has sent connection_state at least once
         self._http = httpx.Client(timeout=60, headers={"Authorization": f"Bearer {api_key}"})
 
     # ── operations ────────────────────────────────────────────────────────────
@@ -130,6 +131,9 @@ class SwitchAgent:
                             break
                         if kind == "connection_state":
                             attached.set()
+                            self.attached.set()
+                            if cursor is None and isinstance(data.get("cursor"), int):
+                                cursor = data["cursor"]  # resume from here if the socket drops
                             continue
                         if seq is not None:
                             cursor = seq

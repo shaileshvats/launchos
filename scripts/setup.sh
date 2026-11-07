@@ -9,7 +9,7 @@ if [ ! -f switch/.env ]; then
     sed -i.bak "s|^${key}=.*|${key}=$(openssl rand -hex 24)|" switch/.env
   done
   sed -i.bak "s|^SECRET_KEYS=.*|SECRET_KEYS=local:$(openssl rand -hex 32)|" switch/.env && rm -f switch/.env.bak
-  echo "Generated switch/.env with fresh secrets."
+  chmod 600 switch/.env; echo "Generated switch/.env with fresh secrets."
 fi
 python3 -m venv .venv
 .venv/bin/pip install -q -r backend/requirements.txt
@@ -17,6 +17,6 @@ if [ ! -f .env ]; then
   cp .env.example .env
   tok=$(grep '^AGENT_REGISTRATION_TOKEN=' switch/.env | cut -d= -f2)
   sed -i.bak "s|^SWITCH_REGISTRATION_TOKEN=.*|SWITCH_REGISTRATION_TOKEN=${tok}|" .env && rm -f .env.bak
-  echo "Wrote .env"
+  chmod 600 .env; echo "Wrote .env"
 fi
 echo "Setup done. Next: scripts/switch-up.sh, then scripts/run.sh"
